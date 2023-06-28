@@ -1,0 +1,14 @@
+**Instalar loader de css minimizer**
+npm install css-minimizer-webpack-plugin --save-dev
+
+
+**Instalar loader de Webpack**
+npm install css-loader sass-loader sass webpack --save-dev
+
+**Instalar eslint y sus plugin**.
+
+npm install eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react @babel/eslint-parser
+
+**Instalar pretier**.
+
+npm install prettier eslint-plugin-prettier eslint-config-prettier
