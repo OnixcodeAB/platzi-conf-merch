@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const CheckOut = () => {
   return (
@@ -223,10 +224,11 @@ export const CheckOut = () => {
             </div>
 
             <hr className="my-4"></hr>
-
-            <button className="w-100 btn btn-primary btn-lg" type="submit">
-              Continue to Payment
-            </button>
+            <Link to={'/checkout/payment'}>
+              <button className="w-100 btn btn-primary btn-lg" type="submit">
+                Continue to Payment
+              </button>
+            </Link>
           </form>
         </div>
       </div>

@@ -1,49 +1,29 @@
-.radio {
-  padding: 0 2.5rem;
-}
-
-.radio img {
-  object-fit: cover;
-  cursor: pointer;
-  border: 3px solid lightgrey;
-}
-
-.radio img:hover {
-  border: 2px solid blue;
-  box-shadow: 0px 0px 0px 1px blue
-}
-
-.Payment {
-  grid-template-columns: 3fr 1fr;
-  grid-gap: 2rem;
-  grid-row-gap: 1.5em;
-  display: grid;
-}
-.Payment-back {
-  margin: 10px 0 0 0;
-}
-.Payment-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.Payment-item .fas {
-  margin: 0 0 0 10px;
-  color: rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-}
-.Payment-item button {
-  background-color: transparent;
-  border: none;
-  outline: none;
-}
-.Payment-element {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.container-payment {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
   width: 100%;
-  border-bottom: 1px solid #eee;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+  border: 1px;
+  border: solid 2.5px lightgray;
+  border-radius: 10px;
 }
-.Payment-element h4 {
-  margin: 0;
+
+/* Meida Query */
+@media (min-width: 1400px) {
+  .container-payment {
+    max-width: 600px;
+  }
+}
+@media (min-width: 1262px) {
+  .container-payment {
+    max-width: 600px;
+  }
+}
+@media (max-width: 425px) {
+  .container-payment {
+    border: none !important;
+  }
 }

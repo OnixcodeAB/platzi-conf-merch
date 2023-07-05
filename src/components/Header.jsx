@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import '../style/Header.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { AppContext } from '../context/AppContext';
 
 export const Headers = () => {
+  const {
+    state: { cart },
+  } = useContext(AppContext);
+
+  const totalItemADDed = cart.reduce((acc, item) => {
+    return acc + item.quantity;
+  }, 0);
+
   return (
     <nav className="navbar navbar-expand-sm navbar-light bg-info-subtle">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <Link to="/" className="navbar-brand" href="#">
           Platz Merch
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -38,11 +48,16 @@ export const Headers = () => {
             </li>
           </ul>
           <div>
-            <i
-              className="bi bi-cart3"
-              style={{ fontSize: '1.8rem', cursor: 'pointer' }}
-            ></i>
-            <span className=" cart-quantity 1 badge bg-primary rounded-pill">3</span>
+            <Link to={'/cart'}>
+              <i
+                className="bi bi-cart3 link-dark"
+                style={{ fontSize: '2rem', cursor: 'pointer' }}
+              ></i>
+            </Link>
+
+            <span className=" cart-quantity 1 badge bg-primary rounded-pill">
+              {totalItemADDed}
+            </span>
           </div>
         </div>
       </div>

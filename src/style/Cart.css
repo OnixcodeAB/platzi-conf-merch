@@ -1,0 +1,21 @@
+
+/* .image-cc img{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+
+} */
+
+/* Media Query */
+
+@media (max-width:1400px) {
+    .image-cc img {
+    width: 100%;
+    }
+}
+@media (min-width:1400px) {
+    .image-cc img {
+    max-width: 250px;
+    max-height: 200px;
+    }
+}
