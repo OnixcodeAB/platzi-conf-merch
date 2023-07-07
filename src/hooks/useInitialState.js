@@ -27,60 +27,48 @@ const useInitialState = () => {
   };
 
   const handleIncrement = (payload) => {
-    const findProduct =
-      state.products.find((item) => item.id === payload.id) ||
-      'Product Not Found';
+    const productIndex = state.products.findIndex(
+      (item) => item.id === payload.id
+    );
+    const findProduct = state.products[productIndex] || 'Product Not Found';
 
     const oldPrice = findProduct.price;
 
-    const updatedQyt = state.cart?.map((product) => {
+    const updatedCart = [...state.cart];
+
+    updatedCart.forEach((product, index) => {
       if (product.id === payload.id) {
-        return { ...product, quantity: product.quantity + 1 };
+        product.quantity += 1;
+        product.price = oldPrice * product.quantity;
       }
-      return product;
     });
-
-    const cartItem = updatedQyt.map((p, idx) => {
-      if (updatedQyt[idx].id === payload.id) {
-        return { ...p, price: oldPrice * p.quantity };
-      }
-      return p;
-    });
-
     setState({
       ...state,
-      cart: cartItem,
+      cart: updatedCart,
     });
-    //callback(payload, updatedCart);
-    //console.log(cartItem);
   };
 
   const handleDecrement = (payload) => {
-    const findProduct =
-      state.products.find((item) => item.id === payload.id) ||
-      'Product Not Found';
+    const productIndex = state.products.findIndex(
+      (item) => item.id === payload.id
+    );
+    const findProduct = state.products[productIndex] || 'Product Not Found';
 
     const oldPrice = findProduct.price;
 
-    const updatedQyt = state.cart?.map((product) => {
-      if (product.id === payload.id) {
-        return { ...product, quantity: product.quantity - 1 };
-      }
-      return product;
-    });
+    const updatedCart = [...state.cart];
 
-    const cartItem = updatedQyt.map((p, idx) => {
-      if (updatedQyt[idx].id === payload.id) {
-        return { ...p, price: oldPrice * p.quantity };
+    updatedCart.forEach((product, index) => {
+      if (product.id === payload.id) {
+        product.quantity -= 1;
+        product.price = oldPrice * product.quantity;
       }
-      return p;
     });
 
     setState({
       ...state,
-      cart: cartItem,
+      cart: updatedCart,
     });
-    //console.log(cartItem);
   };
 
   return {

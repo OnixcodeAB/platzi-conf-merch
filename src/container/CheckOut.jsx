@@ -1,37 +1,52 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
 
 export const CheckOut = () => {
+  const {
+    state: { cart },
+  } = useContext(AppContext);
+
+  const ItemADDed = cart.reduce((acc, item) => {
+    return acc + item.quantity;
+  }, 0);
+
+  const calculateTotal = (cart) => {
+    const totalPrice = cart.reduce((acc, item) => {
+      return acc + item.price;
+    }, 0);
+
+    const IVA = totalPrice * (18 / 100);
+    const priceWithIVA = totalPrice + IVA;
+    const formatedNumber = Number(priceWithIVA.toFixed(2));
+    const total = formatedNumber;
+
+    return total;
+  };
+
+  const Total = calculateTotal(cart);
+
   return (
     <div className="container py-5 ">
       <div className="container-fluid row g-5 m-0">
         <div className="col-md-5 col-lg-4 order-md-last">
           <h4 className="d-flex justify-content-between align-items-center mb-3">
             <span className="text-primary">Your cart</span>
-            <span className="badge bg-primary rounded-pill">3</span>
+            <span className="badge bg-primary rounded-pill">{ItemADDed}</span>
           </h4>
           <ul className="list-group mb-3">
-            <li className="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 className="my-0">Product name</h6>
-                <small className="text-muted">Brief description</small>
-              </div>
-              <span className="text-muted">$12</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 className="my-0">Second product</h6>
-                <small className="text-muted">Brief description</small>
-              </div>
-              <span className="text-muted">$8</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 className="my-0">Third item</h6>
-                <small className="text-muted">Brief description</small>
-              </div>
-              <span className="text-muted">$5</span>
-            </li>
+            {cart.map((item) => (
+              <li
+                key={item.id}
+                className="list-group-item d-flex justify-content-between lh-sm"
+              >
+                <div>
+                  <h6 className="my-0">{item.title}</h6>
+                  <small className="text-muted">{item.description}</small>
+                </div>
+                <span className="text-muted">${item.price}</span>
+              </li>
+            ))}
             <li className="list-group-item d-flex justify-content-between bg-light">
               <div className="text-success">
                 <h6 className="my-0">Promo code</h6>
@@ -41,7 +56,7 @@ export const CheckOut = () => {
             </li>
             <li className="list-group-item d-flex justify-content-between">
               <span>Total (USD)</span>
-              <strong>$20</strong>
+              <strong>${Total}</strong>
             </li>
           </ul>
 
@@ -60,10 +75,10 @@ export const CheckOut = () => {
         </div>
         <div className="col-md-7 col-lg-8">
           <h4 className="mb-3">Billing address</h4>
-          <form className="needs-validation" novalidate>
+          <form className="needs-validation" noValidate>
             <div className="row g-3">
               <div className="col-sm-6">
-                <label for="firstName" className="form-label">
+                <label htmlFor="firstName" className="form-label">
                   First name
                 </label>
                 <input
@@ -72,6 +87,7 @@ export const CheckOut = () => {
                   id="firstName"
                   placeholder=""
                   value=""
+                  onChange={(e) => e}
                   required
                 />
                 <div className="invalid-feedback">
@@ -80,7 +96,7 @@ export const CheckOut = () => {
               </div>
 
               <div className="col-sm-6">
-                <label for="lastName" className="form-label">
+                <label htmlFor="lastName" className="form-label">
                   Last name
                 </label>
                 <input
@@ -89,6 +105,7 @@ export const CheckOut = () => {
                   id="lastName"
                   placeholder=""
                   value=""
+                  onChange={(e) => e}
                   required
                 />
                 <div className="invalid-feedback">
@@ -96,8 +113,8 @@ export const CheckOut = () => {
                 </div>
               </div>
 
-              <div className="col-12">
-                <label for="username" className="form-label">
+              {/* <div className="col-12">
+                <label htmlFor="username" className="form-label">
                   Username
                 </label>
                 <div className="input-group has-validation">
@@ -113,11 +130,11 @@ export const CheckOut = () => {
                     Your username is required.
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="col-12">
-                <label for="email" className="form-label">
-                  Email <span className="text-muted">(Optional)</span>
+                <label htmlFor="email" className="form-label">
+                  Email <span className="text-muted"></span>
                 </label>
                 <input
                   type="email"
@@ -131,7 +148,7 @@ export const CheckOut = () => {
               </div>
 
               <div className="col-12">
-                <label for="address" className="form-label">
+                <label htmlFor="address" className="form-label">
                   Address
                 </label>
                 <input
@@ -147,7 +164,7 @@ export const CheckOut = () => {
               </div>
 
               <div className="col-12">
-                <label for="address2" className="form-label">
+                <label htmlFor="address2" className="form-label">
                   Address 2 <span className="text-muted">(Optional)</span>
                 </label>
                 <input
@@ -159,7 +176,7 @@ export const CheckOut = () => {
               </div>
 
               <div className="col-md-5">
-                <label for="country" className="form-label">
+                <label htmlFor="country" className="form-label">
                   Country
                 </label>
                 <select className="form-select" id="country" required>
@@ -172,7 +189,7 @@ export const CheckOut = () => {
               </div>
 
               <div className="col-md-4">
-                <label for="state" className="form-label">
+                <label htmlFor="state" className="form-label">
                   State
                 </label>
                 <select className="form-select" id="state" required>
@@ -185,7 +202,7 @@ export const CheckOut = () => {
               </div>
 
               <div className="col-md-3">
-                <label for="zip" className="form-label">
+                <label htmlFor="zip" className="form-label">
                   Zip
                 </label>
                 <input
@@ -207,7 +224,7 @@ export const CheckOut = () => {
                 className="form-check-input"
                 id="same-address"
               />
-              <label className="form-check-label" for="same-address">
+              <label className="form-check-label" htmlFor="same-address">
                 Shipping address is the same as my billing address
               </label>
             </div>
@@ -218,7 +235,7 @@ export const CheckOut = () => {
                 className="form-check-input"
                 id="save-info"
               />
-              <label className="form-check-label" for="save-info">
+              <label className="form-check-label" htmlFor="save-info">
                 Save this information for next time
               </label>
             </div>

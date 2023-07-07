@@ -16,7 +16,7 @@ const CartItem = ({
             <img
               src={item.image}
               alt="Blue Jeans Jacket"
-              className="rounded-3"
+              className="rounded-3 img-cart"
             />
             <a href="#">
               <div
@@ -31,7 +31,7 @@ const CartItem = ({
         <div className="col-sm mb-4 mb-lg-0">
           {/* Data */}
           <p>
-            <strong>{item.name}</strong>
+            <strong>{item.title}</strong>
           </p>
           <p>Color: blue</p>
           <p>Size: M</p>
