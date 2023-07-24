@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import initialState from '../initialState';
+import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from './useLocalStorage';
 
 const useInitialState = () => {
-  const [state, setState] = useState(initialState);
-
+  const [state, setState] = useLocalStorage('PlatziMerch',initialState);
+  const [currency, setCurrency] = useState('USD');
+  const [sym, setSym] = useState('');
+  
   const addToCart = (payload) => {
     const updatedProduct = { ...payload, quantity: 1 };
     setState({
@@ -11,6 +15,14 @@ const useInitialState = () => {
       cart: [...state.cart, updatedProduct],
     });
     //console.log(payload);
+  };
+
+  const addBuyerInfo = (payload) => {
+    setState({
+      ...state,
+      buyer: [...state.buyer, payload],
+    });
+    // useNavigate('/checkout/payment');
   };
 
   const removeFromCart = (payload) => {
@@ -71,12 +83,29 @@ const useInitialState = () => {
     });
   };
 
+  const addNewOrder = (payload) => {
+    setState({
+      ...state,
+      order: [...state.order, payload],
+    });
+  };
+
+  const getCurrency = (payload, sym) => {
+    setCurrency(payload);
+    setSym(sym);
+  };
+
   return {
     state,
+    currency,
+    sym,
     addToCart,
+    addBuyerInfo,
     removeFromCart,
     handleIncrement,
     handleDecrement,
+    addNewOrder,
+    getCurrency,
   };
 };
 

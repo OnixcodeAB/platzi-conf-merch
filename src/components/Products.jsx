@@ -5,16 +5,17 @@ import { Product } from '../container/Product';
 
 export const Products = () => {
   const {
-    state: { products },
-    addToCart,
+    initialState: {
+      state: { products },
+      addToCart,
+    },
   } = useContext(AppContext);
-  
 
   return (
     <div className="container-fluid products  ">
       <div className="row gap-3 row-cols-3 justify-content-center">
         {products.map((product, idx) => (
-          <Product key={idx} item={product}  addToCart={addToCart}/>
+          <Product key={idx} item={product} addToCart={addToCart} />
         ))}
       </div>
     </div>

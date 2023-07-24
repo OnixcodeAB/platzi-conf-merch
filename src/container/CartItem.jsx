@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
 
 const CartItem = ({
   item,
@@ -6,6 +7,9 @@ const CartItem = ({
   handleIncrement,
   handleDecrement,
 }) => {
+  const {
+    initialState: { sym },
+  } = useContext(AppContext);
   return (
     <>
       <hr className="my-4" />
@@ -86,7 +90,10 @@ const CartItem = ({
           {/* Quantity */}
           {/* Price */}
           <p className="text-start text-md-center">
-            <strong>${item.price}.00</strong>
+            <strong>
+              {sym ? sym : '$'}
+              {item.price}.00
+            </strong>
           </p>
           {/* Price */}
         </div>

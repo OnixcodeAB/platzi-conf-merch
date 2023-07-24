@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import '../style/Cart.css';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
@@ -6,23 +6,20 @@ import CartItem from './CartItem';
 
 export const Cart = () => {
   const {
-    state: { cart },
-    removeFromCart,
-    handleIncrement,
-    handleDecrement,
-    onChangeQuantity,
+    initialState: {
+      state: { cart },
+      sym,
+      removeFromCart,
+      handleIncrement,
+      handleDecrement,
+      onChangeQuantity,
+    },
+    Calc: { subTotal, total, calculateCartTotal },
   } = useContext(AppContext);
 
-  const totalSummary = cart.reduce((acc, item) => {
-    return acc + item.price;
-  }, 0);
-
-  const shippingCost = 0;
-  const totalWithoutIVA = totalSummary + shippingCost;
-  const impuesto = totalWithoutIVA * (18 / 100);
-  const totalAmountWithIVA = totalWithoutIVA + impuesto;
-  const formttedNumber = Number(totalAmountWithIVA.toFixed(2));
-  const Total = formttedNumber;
+  useEffect(() => {
+    calculateCartTotal(cart);
+  }, [cart]);
 
   return (
     <div className="container py-5">
@@ -120,7 +117,7 @@ export const Cart = () => {
                   {/* Quantity */}
                   {/* Price */}
                   <p className="text-start text-md-center">
-                    <strong>$17.99</strong>
+                    <strong>{sym ? sym : '$'}17.99</strong>
                   </p>
                   {/* Price */}
                 </div>
@@ -179,7 +176,10 @@ export const Cart = () => {
               <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between align-items-center px-0">
                   Products
-                  <span>${totalSummary}</span>
+                  <span>
+                    {sym ? sym : '$'}
+                    {subTotal}
+                  </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center px-0">
                   Shipping
@@ -193,7 +193,10 @@ export const Cart = () => {
                     </strong>
                   </div>
                   <span>
-                    <strong>${Total}</strong>
+                    <strong>
+                      {sym ? sym : '$'}
+                      {total}
+                    </strong>
                   </span>
                 </li>
               </ul>

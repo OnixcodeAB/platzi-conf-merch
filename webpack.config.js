@@ -1,13 +1,14 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath:"/"
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -39,17 +40,17 @@ module.exports = {
           'sass-loader',
         ],
       },
-      /*       {
-        test: /\.(png|gif|jpg)$/,
+      {
+        test: /\.(png|gif|jpg)$/i,
         use: [
           {
-            loader: "file-loader",
+            loader: 'url-loader',
             options: {
-              name: "assets/[hash].[ext]",
+              name: 'assets/[hash].[ext]',
             },
           },
         ],
-      }, */
+      },
     ],
   },
   devServer: {
@@ -69,5 +70,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'assets/[name].css',
     }),
+    new Dotenv(),
   ],
 };
