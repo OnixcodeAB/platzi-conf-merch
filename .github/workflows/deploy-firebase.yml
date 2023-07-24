@@ -1,0 +1,37 @@
+name: Build and Deploy
+on: [push]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@main
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: dist
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@main
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: dist
+          path: dist
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${1//05s97nhyAnEj8CgYIARAAGAUSNwF-L9IrdQ-5LrM2VR-v5moebiZ3t59rPiZJwEtQjBv_VMhLJIV5Jy1ki5X4MaP5Yq0rU6eGVv8}
